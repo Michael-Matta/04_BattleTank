@@ -28,8 +28,6 @@ public:
 
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
-
-
 protected:
 
 
