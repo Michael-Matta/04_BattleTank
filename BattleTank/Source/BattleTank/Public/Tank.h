@@ -10,6 +10,7 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
+class UTankMovementComponent;
 class AProjectile;
 
 UCLASS()
@@ -31,28 +32,30 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Fire();
 
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 4000.0f; // 1000 m/s
-
-	
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	UTankAimingComponent* TankAimingComponent = nullptr;
+	
+	UPROPERTY(BlueprintReadOnly)
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 
 private:	
-	//// Called every frame
-	//virtual void Tick(float DeltaTime) override;
-
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint; // Alternative TSubclassOf
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 4000.0f; // 1000 m/s
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSecods = 3.f;
 
 	// Local Barrel Reference for Spawning Projectile
 	UTankBarrel* Barrel = nullptr;
-	
+
+	double LastFireTime = 0;
 };
